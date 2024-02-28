@@ -1,19 +1,45 @@
-class TwoWayListNode {
-    constructor(value, next = null, previous = null) {
-        this.value = value;
-        this.next = next;
-        this.previous = previous;
+class TwoWayListNode<Type> {
+    get previous(): TwoWayListNode<Type> {
+        return this._previous;
+    }
+
+    set previous(value: TwoWayListNode<Type>) {
+        this._previous = value;
+    }
+    get next(): TwoWayListNode<Type> {
+        return this._next;
+    }
+
+    set next(value: TwoWayListNode<Type>) {
+        this._next = value;
+    }
+    get value(): Type {
+        return this._value;
+    }
+
+    set value(value: Type) {
+        this._value = value;
+    }
+    private _value: Type;
+    private _next: TwoWayListNode<Type>;
+    private _previous: TwoWayListNode<Type>;
+    constructor(value: Type, next: TwoWayListNode<Type> = null, previous: TwoWayListNode<Type> = null) {
+        this._value = value;
+        this._next = next;
+        this._previous = previous;
     }
 }
 
-class TwoWayList {
+class TwoWayListTS<Type> {
+    private head: TwoWayListNode<Type>;
+    private tail: TwoWayListNode<Type>;
     constructor() {
         this.head = null;
         this.tail = null;
     }
 
-    insertFirst(value) {
-        let newNode = new TwoWayListNode(value, this.head);
+    insertFirst(value: Type): TwoWayListTS<Type> {
+        let newNode: TwoWayListNode<Type> = new TwoWayListNode(value, this.head);
 
         if (this.head) {
             this.head.previous = newNode;
@@ -28,8 +54,8 @@ class TwoWayList {
         return this;
     }
 
-    append(value) {
-        let newNode = new TwoWayListNode(value);
+    append(value: Type): TwoWayListTS<Type> {
+        let newNode: TwoWayListNode<Type> = new TwoWayListNode(value);
 
         if (this.tail) {
             this.tail.next = newNode;
@@ -46,9 +72,9 @@ class TwoWayList {
         return this;
     }
 
-    find(value) {
+    find(value: Type): TwoWayListNode<Type> {
 
-        let currentNode = this.head;
+        let currentNode: TwoWayListNode<Type> = this.head;
 
         while (currentNode) {
             if (value !== undefined && currentNode.value === value) {
@@ -60,9 +86,9 @@ class TwoWayList {
         return null;
     }
 
-    delete(value) {
-        let deletedNode = null;
-        let currentNode = this.head;
+    delete(value: Type): TwoWayListNode<Type> {
+        let deletedNode: TwoWayListNode<Type>  = null;
+        let currentNode: TwoWayListNode<Type> = this.head;
 
         while (currentNode) {
             if (currentNode.value === value) {
@@ -82,8 +108,8 @@ class TwoWayList {
                     this.tail = deletedNode.previous;
                     this.tail.next = null;
                 } else {
-                    let previousNode = deletedNode.previous;
-                    let nextNode = deletedNode.next;
+                    let previousNode: TwoWayListNode<Type> = deletedNode.previous;
+                    let nextNode: TwoWayListNode<Type> = deletedNode.next;
                     previousNode.next = nextNode;
                     nextNode.previous = previousNode;
                 }
@@ -95,13 +121,13 @@ class TwoWayList {
         return deletedNode;
     }
 
-    replace(value, newvalue) {
+    replace(value: Type, newvalue: Type): void {
         let deletedNode = null;
-        let currentNode = this.head;
+        let currentNode: TwoWayListNode<Type> = this.head;
 
         while (currentNode) {
             if (currentNode.value === value) {
-                let newNode = new TwoWayListNode(newvalue);
+                let newNode: TwoWayListNode<Type> = new TwoWayListNode(newvalue);
                 deletedNode = currentNode;
 
                 if (deletedNode === this.head) {
@@ -134,9 +160,9 @@ class TwoWayList {
         }
     }
 
-    size() {
-        let i = 0;
-        let currentNode = this.head;
+    size(): number {
+        let i: number = 0;
+        let currentNode: TwoWayListNode<Type> = this.head;
 
         while (currentNode) {
             i++;
@@ -146,8 +172,8 @@ class TwoWayList {
         return i;
     }
 }
-let list = new TwoWayList();
-list.append('1').append(2).append('first');
+let list: TwoWayListTS<string> = new TwoWayListTS()
+list.append('1').append('2').append('first');
 console.log(list.size());
 // list.delete('1');
 console.log(list.size());
